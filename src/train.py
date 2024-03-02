@@ -26,14 +26,14 @@ class ProjectAgent:
           'epsilon_max': 1.,
           'epsilon_decay_period': 1000,
           'epsilon_delay_decay': 20,
-          'batch_size': 20,
-          'gradient_steps': 1,
+          'batch_size': 200,
+          'gradient_steps': 10,
           'update_target_strategy': 'replace', # or 'ema'
           'update_target_freq': 50,
           'update_target_tau': 0.005,
           'criterion': torch.nn.SmoothL1Loss(),
           'monitoring_nb_trials': 50,
-          'neurons': 512}
+          'neurons': 1024}
         DQN = torch.nn.Sequential(nn.Linear(6, self.config['neurons']),
                           nn.ReLU(),
                           nn.Linear(self.config['neurons'], self.config['neurons']),
