@@ -18,7 +18,7 @@ class DQN(nn.Module):
         self.fc5 = nn.Linear(self.hidden_size, self.hidden_size, device=device)
         self.fc6 = nn.Linear(self.hidden_size, self.output_size, device=device)
 
-        self.bn = nn.BatchNorm1d(self.in_features)
+        self.bn = nn.BatchNorm1d(self.input_size)
 
     def forward(self, x):
         # x = self.bn(x)

@@ -34,19 +34,21 @@ class ProjectAgent:
           'update_target_tau': 0.005,
           'criterion': torch.nn.SmoothL1Loss(),
           'monitoring_nb_trials': 50,
-          'neurons': 512}
+          'neurons': 512,
+          'max_episode': 10}
         self.agent = dqn_agent(self.config, DQN(self.config['neurons']))
 
     def act(self, observation, use_random=False):
         return greedy_action(self.agent.model, observation)
 
     def save(self, path):
-        torch.save(self.dqn_agent.model.state_dict, path)
+        torch.save(self.agent.model.state_dict, path)
 
         pass
 
-    def train(self, max_episode = 100000):
-        self.agent.train(env, max_episode)
+    def train(self):
+        print('training')
+        self.agent.train(env, self.config['max_episode'])
                          
 
     def load(self) -> None:
@@ -58,3 +60,4 @@ class ProjectAgent:
         with open(path, 'rb') as f:
             self.model = torch.load(f)
             print("model loaded")
+

@@ -75,9 +75,6 @@ class dqn_agent:
     
     def train(self, env, max_episode):
         episode_return = []
-        MC_avg_total_reward = []   
-        MC_avg_discounted_reward = []   
-        V_init_state = [] 
         episode = 0
         episode_cum_reward = 0
         state, _ = env.reset()
@@ -114,21 +111,6 @@ class dqn_agent:
             step += 1
             if done or trunc:
                 episode += 1
-                if self.monitoring_nb_trials>0:
-                    MC_dr, MC_tr = self.MC_eval(env, self.monitoring_nb_trials)    
-                    V0 = self.V_initial_state(env, self.monitoring_nb_trials)   
-                    MC_avg_total_reward.append(MC_tr)   
-                    MC_avg_discounted_reward.append(MC_dr)   
-                    V_init_state.append(V0)   
-                    episode_return.append(episode_cum_reward)   
-                    print("Episode ", '{:2d}'.format(episode), 
-                          ", epsilon ", '{:6.2f}'.format(epsilon), 
-                          ", batch size ", '{:4d}'.format(len(self.memory)), 
-                          ", ep return ", '{:4.1f}'.format(episode_cum_reward), 
-                          ", MC tot ", '{:6.2f}'.format(MC_tr),
-                          ", MC disc ", '{:6.2f}'.format(MC_dr),
-                          ", V0 ", '{:6.2f}'.format(V0),
-                          sep='')
                 print("Episode ", '{:3d}'.format(episode), 
                       ", epsilon ", '{:6.2f}'.format(epsilon), 
                       ", batch size ", '{:5d}'.format(len(self.memory)), 
