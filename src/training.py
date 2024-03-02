@@ -18,14 +18,9 @@ def seed_everything(seed: int = 42):
     torch.cuda.manual_seed_all(seed)
 
 
-if __name__ == "__main__":
-    seed_everything(seed=42)
-    # Initialization of the agent. Replace DummyAgent with your custom agent implementation.
-    agent = ProjectAgent()
-    agent.load()
-    
-    # Keep the following lines to evaluate your agent unchanged.
-    score_agent: float = evaluate_HIV(agent=agent, nb_episode=1)
-    score_agent_dr: float = evaluate_HIV_population(agent=agent, nb_episode=15)
-    with open(file="score.txt", mode="w") as f:
-        f.write(f"{score_agent}\n{score_agent_dr}")
+seed_everything(seed=42)
+# Initialization of the agent. Replace DummyAgent with your custom agent implementation.
+agent = ProjectAgent()
+
+agent.train()
+agent.save('saves')

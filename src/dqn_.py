@@ -14,9 +14,6 @@ class DQN(nn.Module):
         self.fc1 = nn.Linear(self.input_size, self.hidden_size, device=device)
         self.fc2 = nn.Linear(self.hidden_size, self.hidden_size, device=device)
         self.fc3 = nn.Linear(self.hidden_size, self.hidden_size, device=device)
-        self.fc4 = nn.Linear(self.hidden_size, self.hidden_size, device=device)
-        self.fc5 = nn.Linear(self.hidden_size, self.hidden_size, device=device)
-        self.fc6 = nn.Linear(self.hidden_size, self.output_size, device=device)
 
         self.bn = nn.BatchNorm1d(self.input_size)
 
@@ -25,8 +22,6 @@ class DQN(nn.Module):
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         x = F.relu(self.fc3(x))
-        x = F.relu(self.fc4(x))
-        x = F.relu(self.fc5(x))
-        x = self.fc6(x)
+        x = self.fc3(x)
         # x = F.relu(x)
         return x

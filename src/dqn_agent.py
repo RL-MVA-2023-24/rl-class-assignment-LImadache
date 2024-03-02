@@ -9,6 +9,7 @@ from dqn_greedy_action import greedy_action
 
 class dqn_agent:
     def __init__(self, config, model):
+        
         device = 'cpu'
         self.nb_actions = config['nb_actions']
         self.gamma = config['gamma'] if 'gamma' in config.keys() else 0.95

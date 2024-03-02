@@ -20,29 +20,35 @@ class ProjectAgent:
     def __init__(self):
         device = "cpu"
         self.config = {'nb_actions': env.action_space.n,
-          'learning_rate': 0.0002,
-          'gamma': 0.95,
+          'learning_rate': 0.002,
+          'gamma': 0.85,
           'buffer_size': 1000000,
           'epsilon_min': 0.01,
           'epsilon_max': 1.,
-          'epsilon_decay_period': 1000,
+          'epsilon_decay_period': 5000,
           'epsilon_delay_decay':20,
-          'batch_size': 512,
+          'batch_size': 64,
           'gradient_steps': 3,
           'update_target_strategy': 'replace', # or 'ema'
           'update_target_freq': 50,
           'update_target_tau': 0.005,
           'criterion': torch.nn.SmoothL1Loss(),
           'monitoring_nb_trials': 50,
-          'neurons': 512,
-          'max_episode': 10}
-        self.agent = dqn_agent(self.config, DQN(self.config['neurons']))
+          'neurons': 256,
+          'max_episode': 100}
+        DQN = torch.nn.Sequential(nn.Linear(6, self.config['neurons']),
+                          nn.ReLU(),
+                          nn.Linear(self.config['neurons'], self.config['neurons']),
+                          nn.ReLU(), 
+                          nn.Linear(self.config['neurons'], self.config['nb_actions']).to(device)
+        )
+        self.agent = dqn_agent(self.config, DQN)
 
     def act(self, observation, use_random=False):
         return greedy_action(self.agent.model, observation)
 
     def save(self, path):
-        torch.save(self.agent.model.state_dict, path)
+        torch.save(self.agent.model.state_dict(), path)
 
         pass
 
@@ -54,10 +60,14 @@ class ProjectAgent:
     def load(self) -> None:
 
         path = 'saves'
-        if not os.path.exists(path):
-            print("No model to load")
-            return
-        with open(path, 'rb') as f:
-            self.model = torch.load(f)
-            print("model loaded")
+        model = DQN = torch.nn.Sequential(nn.Linear(6, self.config['neurons']),
+                          nn.ReLU(),
+                          nn.Linear(self.config['neurons'], self.config['neurons']),
+                          nn.ReLU(), 
+                          nn.Linear(self.config['neurons'], self.config['nb_actions']).to("cpu")
+        )
+
+        state_dict = torch.load('saves')
+        model.load_state_dict(state_dict)
+        self.agent = dqn_agent(self.config,model)
 
