@@ -3,6 +3,7 @@ from gymnasium.wrappers import TimeLimit
 from env_hiv import HIVPatient
 from dqn_agent import dqn_agent
 from dqn_greedy_action import greedy_action
+from dqn_ import dqn
 import torch.nn as nn
 import os
 
@@ -19,9 +20,9 @@ class ProjectAgent:
     def __init__(self):
         device = "cpu"
         self.config = {'nb_actions': env.action_space.n,
-          'learning_rate': 0.002,
-          'gamma': 0.80,
-          'buffer_size': 100000,
+          'learning_rate': 0.0002,
+          'gamma': 0.95,
+          'buffer_size': 1000000,
           'epsilon_min': 0.01,
           'epsilon_max': 1.,
           'epsilon_decay_period': 1000,
@@ -29,21 +30,12 @@ class ProjectAgent:
           'batch_size': 512,
           'gradient_steps': 3,
           'update_target_strategy': 'replace', # or 'ema'
-          'update_target_freq': 500,
+          'update_target_freq': 50,
           'update_target_tau': 0.005,
           'criterion': torch.nn.SmoothL1Loss(),
           'monitoring_nb_trials': 50,
           'neurons': 512}
-        DQN = torch.nn.Sequential(nn.Linear(6, self.config['neurons']),
-                          nn.ReLU(),
-                          nn.Linear(self.config['neurons'], self.config['neurons']),
-                          nn.ReLU(), 
-                          nn.Linear(self.config['neurons'], self.config['neurons']),
-                          nn.ReLU(), 
-                          nn.Linear(self.config['neurons'], self.config['neurons']),
-                          nn.ReLU(), 
-                          nn.Linear(self.config['neurons'], 4)).to(device)
-        self.agent = dqn_agent(self.config, DQN)
+        self.agent = dqn_agent(self.config, dqn(self.config['neurons']))
 
     def act(self, observation, use_random=False):
         return greedy_action(self.agent.model, observation)
