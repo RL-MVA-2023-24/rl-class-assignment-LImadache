@@ -3,7 +3,7 @@ from gymnasium.wrappers import TimeLimit
 from env_hiv import HIVPatient
 from dqn_agent import dqn_agent
 from dqn_greedy_action import greedy_action
-from dqn_ import dqn
+from dqn_ import DQN
 import torch.nn as nn
 import os
 
@@ -35,7 +35,7 @@ class ProjectAgent:
           'criterion': torch.nn.SmoothL1Loss(),
           'monitoring_nb_trials': 50,
           'neurons': 512}
-        self.agent = dqn_agent(self.config, dqn(self.config['neurons']))
+        self.agent = dqn_agent(self.config, DQN(self.config['neurons']))
 
     def act(self, observation, use_random=False):
         return greedy_action(self.agent.model, observation)

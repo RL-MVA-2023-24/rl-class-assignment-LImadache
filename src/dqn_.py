@@ -11,12 +11,12 @@ class DQN(nn.Module):
         self.hidden_size = neurons
 
         super(DQN, self).__init__()
-        self.fc1 = nn.Linear(self.in_features, self.hidden_size, device=device)
+        self.fc1 = nn.Linear(self.input_size, self.hidden_size, device=device)
         self.fc2 = nn.Linear(self.hidden_size, self.hidden_size, device=device)
         self.fc3 = nn.Linear(self.hidden_size, self.hidden_size, device=device)
         self.fc4 = nn.Linear(self.hidden_size, self.hidden_size, device=device)
         self.fc5 = nn.Linear(self.hidden_size, self.hidden_size, device=device)
-        self.fc6 = nn.Linear(self.hidden_size, self.out_size, device=device)
+        self.fc6 = nn.Linear(self.hidden_size, self.output_size, device=device)
 
         self.bn = nn.BatchNorm1d(self.in_features)
 
