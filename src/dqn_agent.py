@@ -64,7 +64,8 @@ class dqn_agent:
             MC_discounted_reward.append(discounted_reward)
         return np.mean(MC_discounted_reward), np.mean(MC_total_reward)
     
-    def V_initial_state(self, env, nb_trials):   # NEW NEW NEW
+    def V_initial_state(self, env, nb_trials):   
+        device = 'cpu'
         with torch.no_grad():
             for _ in range(nb_trials):
                 val = []
