@@ -26,11 +26,11 @@ class ProjectAgent:
           'epsilon_max': 1.,
           'epsilon_decay_period': 1000,
           'epsilon_delay_decay': 20,
-          'batch_size': 200,
+          'batch_size': 20,
           'gradient_steps': 10,
           'update_target_strategy': 'replace', # or 'ema'
-          'update_target_freq': 50,
-          'update_target_tau': 0.005,
+          'update_target_freq': 500,
+          'update_target_tau': 0.001,
           'criterion': torch.nn.SmoothL1Loss(),
           'monitoring_nb_trials': 50,
           'neurons': 1024}
@@ -53,7 +53,7 @@ class ProjectAgent:
 
         pass
 
-    def train(self, max_episode = 200):
+    def train(self, max_episode = 20000):
         self.agent.train(env, max_episode)
                          
 
