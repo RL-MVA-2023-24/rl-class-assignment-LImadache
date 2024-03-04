@@ -20,7 +20,7 @@ class ProjectAgent:
     def __init__(self):
         device = "cpu"
         self.config = {'nb_actions': env.action_space.n,
-          'learning_rate': 0.001,
+          'learning_rate': 0.002,
           'gamma': 0.90,
           'buffer_size': 1000000,
           'epsilon_min': 0.01,
@@ -31,11 +31,11 @@ class ProjectAgent:
           'gradient_steps': 2,
           'update_target_strategy': 'replace', # or 'ema'
           'update_target_freq': 100,
-          'update_target_tau': 0.005,
+          'update_target_tau': 0.002,
           'criterion': torch.nn.SmoothL1Loss(),
           'monitoring_nb_trials': 50,
-          'neurons': 128,
-          'max_episode': 500}
+          'neurons': 256,
+          'max_episode': 150}
         DQN = torch.nn.Sequential(nn.Linear(6, self.config['neurons']),
                           nn.ReLU(),
                           nn.Linear(self.config['neurons'], self.config['neurons']),
